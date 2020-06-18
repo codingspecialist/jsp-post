@@ -1,0 +1,58 @@
+package com.cos.apple.controller;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.cos.apple.action.Action;
+import com.cos.apple.action.member.MemberJoinFormAction;
+import com.cos.apple.action.member.MemberJoinProcAction;
+import com.cos.apple.action.member.MemberLoginFormAction;
+import com.cos.apple.action.member.MemberLoginProcAction;
+
+// http://localhost:8000/apple/member
+@WebServlet("/member")
+public class MemberController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public MemberController() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+	
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 1. request utf-8 세팅 = web.xml 필터 등록함.
+		// 2. response utf-8 세팅
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		String cmd = request.getParameter("cmd");
+		Action action = router(cmd);
+		action.execute(request, response);
+	}
+	
+	private Action router(String cmd) {
+		if(cmd.equals("joinForm")) {
+			return new MemberJoinFormAction();
+		}else if(cmd.equals("joinProc")) {
+			return new MemberJoinProcAction();
+		}else if(cmd.equals("loginForm")) {
+			return new MemberLoginFormAction();
+		}else if(cmd.equals("loginProc")) {
+			return new MemberLoginProcAction();
+		}
+		return null;
+	}
+
+}
