@@ -15,17 +15,18 @@
 <%@include file="../include/nav.jsp" %>
 <section>
 	<form action="/apple/post?cmd=saveProc" method="post">
-	<table border="1">
-		<tr>
-			<th>제목</th>
-			<td><input type="text" name="title" /></td>
-		</tr>
-		<tr>
-			<th>내용</th>
-			<td><textarea rows="3" cols="22" name="content"></textarea></td>
-		</tr>
-	</table>
-	<button>글쓰기완료</button>
+		<input type="hidden" value="${sessionScope.principal.id}" name="memberId" />
+		<table border="1">
+			<tr>
+				<th>제목</th>
+				<td><input type="text" name="title" /></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td><textarea rows="3" cols="22" name="content"></textarea></td>
+			</tr>
+		</table>
+		<button>글쓰기완료</button>
 	</form>
 </section>
 <footer>
